@@ -1,6 +1,5 @@
-1. Allow users to add charges to spread sheet
-2. Program adds up totals and matches to budget on spreadsheet
+1. Allow users to add charges to spread sheet (Done)
+2. Program adds up totals and matches to budget on spreadsheet (Done)
 	Maybe adds a statement to the sheet with how much money is left in budget or how much over you are
 3. Create GUI interface for enetering in values
-4. Save additions to a file so user can save their data without needing to keep entering every time the app is started
-	Will just make program rebuild and add whatever is saved in the file as to not mess up formatting
+4. Uses data already present in spreadsheet without having to rebuild it (Done)
