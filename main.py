@@ -3,10 +3,9 @@ import sys
 from pygsheets import HorizontalAlignment
 
 # set up spreadsheet to use
-account = pygsheets.authorize(service_file=r'C:\Users\simar\Desktop\BudgetSpreasheetMaker/client_secret.json')
+account = pygsheets.authorize(service_file=r'C:\Users\simar\Desktop\BudgetMaker/client_secret.json')
 sheet = account.open('PygSheets Tester')
 page = sheet.worksheet("index", 0)
-
 # create initial budget cells
 budget = input("Enter your monthly budget: ")
 budgetCell = page.cell("B1")
@@ -28,8 +27,7 @@ descColor = (142 / 255, 124 / 255, 195 / 255)
 colorsTuple = (dateColor, priceColor, descColor)  # to use in a loop later in the addNewData() function
 
 # Creates Date header
-tuple1 = (4,
-          0)  # positional tuple to get to cell 4 rows down and 0 to the right. Entering in the tuple without a variable was not working
+tuple1 = (4,0)  # positional tuple to get to cell 4 rows down and 0 to the right. Entering in the tuple without a variable was not working
 dateHeader = budgetCell.neighbour(tuple1)
 dateHeader.value = "Date"
 dateHeader.text_format["bold"] = True
@@ -71,6 +69,12 @@ outlookCell = totalCell.neighbour(tuple1)
 outlookCell.text_format["bold"] = True
 outlookCell.update()
 
+# Budget Outlook Header'
+outlookHeader = outlookCell.neighbour("left")
+outlookHeader.value = "Budget Outlook:"
+outlookHeader.text_format["bold"] = True
+outlookHeader.update()
+
 listOfCosts = []  # Array that will store all the costs user enters
 currentSum = 0  # Will store the current *sum* of those costs
 
@@ -89,7 +93,6 @@ def findNextRow():
         else:
             if catchingUp:
                 currentSum = currentSum + int(indexCell.neighbour("right").value[1:])  # Makes sure data from previous iterations are uses in current sum
-                print("INSIDE CATCHING: " + str(currentSum))
             indexCell = indexCell.neighbour(tempTuple)  # moves index to row directly below last checked one
 
 
@@ -134,8 +137,7 @@ def addNewData(newLine):
                 currentSum = currentSum + int(listOfCosts[-1])
                 totalCell.value = "$" + str(currentSum)
             blankCell = blankCell.neighbour("right")
-        outlookCell.value = int(
-            budgetCell.value[1:]) - currentSum  # Gets the value and removes the $ sign from totalCell
+        outlookCell.value = int(budgetCell.value[1:]) - currentSum  # Gets the value and removes the $ sign from totalCell
         if int(outlookCell.value) < 0:
             outlookCell.color = (204 / 255, 0, 0)  # Dark red
         if int(outlookCell.value) > 0:
